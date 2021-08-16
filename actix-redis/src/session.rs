@@ -253,14 +253,14 @@ impl Inner {
 
         let val = self
             .addr
-            .send(Command(resp_array!["GET", cache_key]))
+            .send(Command(resp_array!["GET", &cache_key]))
             .await
             .map_err(error::ErrorInternalServerError)?
             .map_err(error::ErrorInternalServerError)?;
         
         self
             .addr
-            .send(Command(resp_array!["EXPIRE", cache_key, &self.ttl]))
+            .send(Command(resp_array!["EXPIRE", &cache_key, &self.ttl]))
             .await
             .map_err(error::ErrorInternalServerError)?
             .map_err(error::ErrorInternalServerError)?;
