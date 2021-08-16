@@ -257,6 +257,13 @@ impl Inner {
             .await
             .map_err(error::ErrorInternalServerError)?
             .map_err(error::ErrorInternalServerError)?;
+        
+        self
+            .addr
+            .send(Command(resp_array!["EXPIRE", cache_key, &self.ttl]))
+            .await
+            .map_err(error::ErrorInternalServerError)?
+            .map_err(error::ErrorInternalServerError)?;
 
         match val {
             RespValue::Error(err) => {
